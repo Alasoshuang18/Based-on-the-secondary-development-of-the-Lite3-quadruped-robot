@@ -1,7 +1,6 @@
 # 基于 Lite3 四足机器人的二次开发
 
 > 基于 Lite3 平台，开展 ROS 2 仿真适配、MID-360 环境感知、SLAM 建图与自主导航应用开发。
-# Based-on-the-secondary-development-of-the-Lite3-quadruped-robot
 
 ## 项目简介
 
@@ -87,13 +86,10 @@ Lite3 + MID-360 + Orange Pi
      官方 MotionSender
             │
      Lite3 原厂步态控制器
-```
 
-在线建图与已有地图定位采用不同入口，具体地图及 TF 发布关系以对应章节为准。
+
 
 ## 文件目录
-
-```text
 Lite3_robot/
 ├── README.md
 ├── 01_simulationmode_grazebo/          # Lite3 模型、控制与仿真
@@ -118,25 +114,10 @@ Lite3_robot/
     ├── 5-1_基于已有地图的单点导航/
     ├── 5-2_基于目标点规划路径/
     └── 5-3_自主探索与静态避障/
-```
 
-目录树仅列出主要内容，省略备份、缓存、运行时依赖和部分配套资料。
 
 ## 开发与运行环境
 
-| 项目 | 配套环境 |
-| --- | --- |
-| 机器人平台 | Lite3 四足机器人 |
-| 板载计算设备 | Orange Pi AI Pro 20T，aarch64 |
-| 激光雷达 | Livox MID-360 |
-| 操作系统 | Ubuntu 22.04 |
-| ROS | ROS 2 Humble |
-| 仿真环境 | Gazebo Fortress、ros_gz、gz_ros2_control |
-| 主要开发语言 | Python；官方接口及第三方组件涉及 C++ |
-| 定位与建图 | FAST-LIO、slam_toolbox、AMCL |
-| 导航与显示 | Nav2、RViz2 |
-| 构建工具 | colcon、ament_cmake、ament_python |
-=======
 | 项目         | 配套环境                                 |
 | ------------ | ---------------------------------------- |
 | 机器人平台   | Lite3 四足机器人                         |
@@ -149,6 +130,7 @@ Lite3_robot/
 | 定位与建图   | FAST-LIO、slam_toolbox、AMCL             |
 | 导航与显示   | Nav2、RViz2                              |
 | 构建工具     | colcon、ament_cmake、ament_python        |
+
 
 配套说明沿用目标工作空间 `~/catkin_ws_lite3dog`，实际采用 ROS 2 的 colcon 构建流程。
 
