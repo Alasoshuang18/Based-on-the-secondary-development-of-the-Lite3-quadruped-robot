@@ -13,3 +13,6 @@
 **/install/
 **/log/
 **/.runtime/
+__pycache__/
+*.pyc
+*.pyo
