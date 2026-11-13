@@ -1,0 +1,8 @@
+# Map-frame teaching example, NOT measured coordinates. Replace every point in RViz.
+frame_id: map
+source: teaching_example_replace_on_site
+waypoints:
+  - {name: checkpoint_a, x: 1.0, y: 0.0, yaw: 0.0, dwell_s: 2.0}
+  - {name: checkpoint_b, x: 1.0, y: 1.0, yaw: 1.57, dwell_s: 2.0}
+  - {name: checkpoint_c, x: 0.0, y: 1.0, yaw: 3.14, dwell_s: 2.0}
+  - {name: measured_home, x: 0.0, y: 0.0, yaw: 0.0, dwell_s: 3.0}

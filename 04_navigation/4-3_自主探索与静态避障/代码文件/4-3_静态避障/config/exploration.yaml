@@ -1,0 +1,30 @@
+# Online mapping; verification flags require real site evidence.
+/**:
+  ros__parameters:
+    mode: real
+    use_sim_time: false
+    autostart: false
+    enable_real_motion: false
+    site_configuration_verified: false
+    robot_length_m: 0.779
+    robot_width_m: 0.480
+    footprint_padding_m: 0.10
+    max_linear_speed_mps: 0.20
+    max_yaw_rate_rps: 0.20
+    exploration_seconds: 60.0
+    exploration_radius_m: 2.0
+    max_aborted_goals: 3
+    lifecycle_nodes: [planner_server, controller_server, bt_navigator, velocity_smoother]
+    required_clearance_m: 0.1
+    envelope_verified: false
+    motion_bound_verified: false
+    costmap_inflation_radius_m: 0.9
+    costmap_cost_scaling_factor: 3.0
+    sensor_coverage_verified: false
+    max_sensor_gap_s: 0.15
+    obstacle_topic: /course/obstacles
+    sensor_error_bound_m: 0.15
+    inflation_edge_required_clearance_m: 0.1
+    inflation_cost_threshold: 1
+    max_costmap_gap_s: 1.0
+    max_costmap_footprint_skew_s: 0.15

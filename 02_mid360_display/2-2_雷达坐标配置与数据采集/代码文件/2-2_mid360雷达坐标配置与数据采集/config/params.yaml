@@ -1,0 +1,12 @@
+/**:
+  ros__parameters:
+    record: true
+    duration_s: 30.0              # 墙钟秒，包含子进程启动；节点强制限制在1~30秒
+    record_wait_s: 2.0           # 点云、IMU、TF及sim时钟同时就绪后连续等2墙秒
+    cache_bytes: 16777216        # 16MiB，强制上限64MiB
+    max_bagfile_size_bytes: 268435456
+    max_total_bag_bytes: 536870912 # 每0.5秒检查总磁盘用量；存在一个检查周期的写入余量
+    lidar_translation_m: [0.22, 0.0, 0.175] # 未标定示例；真机必须现场实测并与lidar_xyz保持一致，单位米
+    lidar_quaternion_xyzw: [0.0, 0.0, 0.0, 1.0] # 未标定示例；按实测旋转填写，与lidar_rpy等价
+    translation_tolerance_m: 0.05
+    rotation_tolerance_deg: 5.0

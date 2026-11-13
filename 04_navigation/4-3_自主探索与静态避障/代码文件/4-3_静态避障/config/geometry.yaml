@@ -1,0 +1,8 @@
+# Field measurement worksheet only. Not ground truth or a clearance input.
+frame_id: map
+source: manual_on_site_measurement_required
+verified: false
+physical_envelope_example_m: [1.2, 0.8]
+# Record real measured corners, tape/ruler readings, photos, map alignment, date/operator.
+# Do not copy SDF/world boxes here. Runtime clearance comes from /course/obstacles.
+obstacles: []

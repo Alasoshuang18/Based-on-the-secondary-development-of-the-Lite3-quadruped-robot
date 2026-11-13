@@ -1,0 +1,7 @@
+/**:
+  ros__parameters:
+    input_topic: /course/points_raw
+    stale_timeout_s: 1.0
+    target_frame: base_link
+    calibration_measured: false  # 真实安装尚未实测；healthy不代表标定验收
+    calibration_record_path: ''   # 实测后填写记录文件绝对路径，并人工复核内容

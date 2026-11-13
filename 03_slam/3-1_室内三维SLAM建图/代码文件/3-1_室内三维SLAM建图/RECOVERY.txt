@@ -1,0 +1,22 @@
+2026-10-23 4-1误删目录重建说明
+
+本目录是根据用户提供的4-1 README、开发板现存4-2包结构和公共后端接口重建的实现。
+没有找到原4-1源码完整备份；本目录不是原始源码的逐字节恢复，也不匹配旧manifest哈希。
+根目录manifest.json仍作为旧交付清单保留，不将本次重建冒充旧交付。
+
+ROS包名 lite3_lab_4_1；外层目录 4-1_lidar_inertial_mapping。
+launch使用公共make_launch(...,stack='lio')，保持真实FAST-LIO公共后端。
+本节点只观察传感器、记录人工试验、请求保存PCD，不发布速度、不arm、不开运动UDP。
+默认autostart=false、真实运动开关继续由公共启动层控制并保持默认关闭。
+
+恢复内容：Python模块、包清单、安装入口、launch、YAML、RViz、资源索引、测试、README。
+健康记录保留源header时间，并拒绝重复/回退/未来时间戳；检查四路新鲜度和100个SI IMU样本。
+时延统计窗口为最近1000个有效递增时间戳；health.csv每秒记录。
+start_trial要求ready且returned_to_start=false；失败记录也保存，不虚构物理回归。
+PCD保存为异步请求，后台重载全部ASCII XYZ验证后更新pcd_save_result.json。
+RViz固定odom，PointCloud2使用Best Effort；配准点显示保留2秒。
+README中的静态诊断终端域44已改为本次课程使用的43。
+
+既有common源码、FAST-LIO调参、实测外参脚本、4-2源码和历史结果均不由本次恢复改写。
+恢复后需重新构建本包。构建/逻辑检查不等于现场建图或真实三次路线试验通过。
+详细检查结果和备份位于工作空间backups/recovery_4_1_*目录。

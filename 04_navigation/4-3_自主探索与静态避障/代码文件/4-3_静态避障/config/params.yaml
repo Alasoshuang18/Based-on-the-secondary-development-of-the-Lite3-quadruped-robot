@@ -1,0 +1,46 @@
+# All coordinates and physical dimensions are teaching examples; replace with site measurements.
+/**:
+  ros__parameters:
+    mode: real
+    autostart: false
+    use_sim_time: false
+    result_dir: ''
+    map_file: ~/catkin_ws_lite3dog/maps/robot_dog_auto_map.yaml
+    initial_pose_strategy: rviz
+    initial_x: 0.0
+    initial_y: 0.0
+    initial_yaw: 0.0
+    initial_covariance_xy: 0.04
+    initial_covariance_yaw: 0.0685
+    goal_x: 2.0
+    goal_y: 0.0
+    goal_yaw: 0.0
+    particle_diameter_limit_m: 0.3
+    localization_stable_s: 3.0
+    data_stale_wall_s: 10.0
+    data_stale_sim_s: 1.0
+    health_timeout_wall_s: 1800.0
+    goal_timeout_sim_s: 900.0
+    goal_timeout_wall_s: 18000.0
+    nomotion_update_period_sim_s: 0.5
+    required_clearance_m: 0.1
+    envelope_verified: false
+    motion_bound_verified: false
+    max_linear_speed_mps: 0.02
+    max_yaw_rate_rps: 0.02
+    costmap_inflation_radius_m: 0.9
+    costmap_cost_scaling_factor: 3.0
+    enable_real_motion: false
+    site_configuration_verified: false
+    robot_length_m: 0.779
+    robot_width_m: 0.480
+    footprint_padding_m: 0.10
+    backend_status_timeout_wall_s: 0.5
+    sensor_coverage_verified: false
+    max_sensor_gap_s: 0.15
+    obstacle_topic: /course/obstacles
+    sensor_error_bound_m: 0.15
+    inflation_edge_required_clearance_m: 0.1
+    inflation_cost_threshold: 1
+    max_costmap_gap_s: 1.0
+    max_costmap_footprint_skew_s: 0.15

@@ -1,0 +1,4 @@
+from lite3_course_common.bringup import make_launch
+
+def generate_launch_description():
+    return make_launch('lite3_lab_3_3', __file__, stack='sensors')

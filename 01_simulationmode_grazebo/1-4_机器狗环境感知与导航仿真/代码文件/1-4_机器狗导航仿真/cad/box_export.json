@@ -1,0 +1,39 @@
+{
+  "bounds_m": [
+    -0.206,
+    0.0,
+    0.0,
+    0.0,
+    0.1407,
+    0.052
+  ],
+  "cad_mass_kg": 1.5071783999999993,
+  "center_of_mass_m": [
+    -0.103,
+    0.07034999999999998,
+    0.026
+  ],
+  "inertia_kg_m2": [
+    0.002826021043117997,
+    4.679351528943018e-19,
+    -6.356135236196268e-20,
+    4.679351528943018e-19,
+    0.005669502747999996,
+    1.1927066269808624e-19,
+    -6.356135236196268e-20,
+    1.1927066269808624e-19,
+    0.007816288725517992
+  ],
+  "solidworks_revision": "30.5.0",
+  "export_warnings": 0,
+  "mesh_units": "metres",
+  "mesh_center": "bounding-box center",
+  "stl_export_unit_scale": 0.0010000000072299404,
+  "triangles": 12,
+  "dimensions_m": [
+    0.206,
+    0.1407,
+    0.052
+  ],
+  "mass_note": "CAD-assigned density; verify actual payload mass before gait qualification"
+}

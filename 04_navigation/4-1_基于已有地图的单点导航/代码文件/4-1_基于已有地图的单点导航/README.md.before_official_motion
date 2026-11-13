@@ -1,0 +1,147 @@
+# 实验原理
+
+真实机器狗使用第四章在现场保存的地图；map_server发布 `/map`，AMCL结合真实 `/scan` 和 `/course/odom` 建立 map→odom，Nav2通过 NavigateToPose 执行到点。默认地图 `~/catkin_ws_lite3dog/maps/robot_dog_auto_map.yaml`，**0.05 m/格**。主路线使用真实驱动、真实LIO和系统时钟。
+
+在RViz用 **2D Pose Estimate** 人工指出机器狗实际位置与朝向。程序按真实粒子权重收集至少95%后验质量，求区域内最大两点距离；直径须 **≤0.30 m并连续保持3 s实际ROS系统时间**。每0.5 s请求一次真实AMCL无运动观测更新，不能拿一帧缓存累计收敛。坏数据、重新初始化和过期会重置计时。后验集中不能证明绝对定位误差，独立实测精度另行评估。
+
+# 实验目的
+
+- 学会真实地图加载、人工初始位置、定位收敛及单目标导航。
+- 理解地图、粒子后验、估计轨迹和独立实测精度的区别。
+- 读懂异步Action接受、反馈、终态及取消停车。
+
+# 实验步骤
+
+**1. 准备与构建。** 板端环境为Ubuntu 22.04、ROS 2 Humble。先完成第三章真实传感器/LIO和第四章真实存图。每个终端加载课程环境；当前可以只完成代码、编译及离线测试，无需等待本体连接。以下运动命令供现场设备与后端验收就绪后使用。
+
+```bash
+cd ~/catkin_ws_lite3dog
+source ~/catkin_ws_lite3dog/course_env.sh
+sudo apt update
+sudo apt install ros-humble-navigation2 ros-humble-nav2-bringup \
+  ros-humble-nav2-rviz-plugins python3-numpy python3-yaml python3-matplotlib python3-pytest
+bash src/lite3_course_native/native/build_backend.sh --test
+colcon build --symlink-install --base-paths src/lite3_course_native src/lite3_course_common \
+  src/03_sensors src/04_slam src/05_navigation --packages-up-to lite3_lab_5_1
+source ~/catkin_ws_lite3dog/course_env.sh
+colcon test --packages-select lite3_lab_5_1 --event-handlers console_direct+
+colcon test-result --verbose
+python3 -m pytest src/05_navigation/5-1_single_goal_navigation/tests -q
+```
+
+已有交付源码不重复ros2 pkg create覆盖。外层5-1_single_goal_navigation是课程目录，包名及内层Python模块仍为lite3_lab_5_1。`package.xml`声明依赖，`setup.py`用console_scripts注册experiment入口，用data_files安装launch/config资源；完整算法已在交付Python文件中，空脚手架不能直接运行。
+
+**2. 复制现场参数与测量。**
+
+```bash
+source ~/catkin_ws_lite3dog/course_env.sh
+export PARAMS=~/catkin_ws_lite3dog/site_lite3_lab_5_1.yaml
+cp ~/catkin_ws_lite3dog/src/05_navigation/5-1_single_goal_navigation/config/params.yaml "$PARAMS"
+nano "$PARAMS"
+# YAML用空格缩进。Ctrl+O保存，Enter确认，Ctrl+X退出。
+cat ~/catkin_ws_lite3dog/maps/robot_dog_auto_map.yaml
+```
+
+核对resolution为0.05、image真实存在且现场轮廓/比例/原点一致。测量足腿摆动与负载的完整包络；默认L=1.2、W=0.8、padding=0.15 m都是教学示例，参数文件和下面launch都须改成实测值。site_configuration_verified默认false，完成地图、目标、外参及包络的现场核对后才改true，此字段代表已存在测量依据。
+
+把现场参数中的 `goal_x/y/yaw` 改为RViz真实地图中选出的自由位置，`initial_x/y/yaw`填写实际起点用于记录，主流程保留 `initial_pose_strategy: rviz`。yaw单位rad，正方向逆时针。示例目标(1,0,0)不是实测坐标；第一次选择开阔近距离直线路径。目标栅格自由之外，还须保证完整足腿包络能够通过。
+
+默认线速度0.02 m/s、角速度0.02 rad/s；单点预算180实际ROS秒/3600墙秒。1 m直线计入0.15 m到点容差，理论下界42.5 s；实际转向、加减速和恢复会增加耗时。现场目标更远时按实测路线长度增大预算，不把超时改写为成功。
+
+`geometry.py:weighted_region`核对权重并计算95%区域直径；`StableGate.update`累计连续条件；`map_health`检查0.05 m地图和自由区域。`runtime.py:inspect_map_yaml`核对地图图像；`on_particles`读取后验；`poll_lifecycle/health`检查真实TF、odom、后端和Nav2 active；`send_goal/goal_accepted/feedback/goal_result`实现异步动作。`safety.py:CancellationGuard`区分取消被接受与真实终态；取消无终态时持续停车并请求公共锁存停止。入口 `experiment.py:main`只创建节点。
+
+```python
+# 完整实现在交付源码中；这是运行关系。
+if self.start_requested and not self.health():
+    self.started = True             # 就绪后才开始任务计时
+    self.send_goal(self.goal_pose()) # Nav2和原生连续后端执行实际运动
+# future由回调处理，不能在ROS回调里sleep等Action完成。
+```
+
+**3. 禁用运动的测量启动。** 主命令明确mode:=real，系统时钟use_sim_time=false。默认autostart=false不发导航目标；native_execute=false不创建真实原生运动进程。start_hardware=true启动课程官方raw driver；只有同域已经单独运行官方原始驱动时才用false复用，不能复用另一完整课程LIO/控制栈。MID360默认配置在公共包config/MID360_config.json；实际雷达/主机IP不同时，按根驱动说明准备JSON并加 `lidar_config:=/绝对路径/MID360_config.json`。
+
+```bash
+source ~/catkin_ws_lite3dog/course_env.sh
+export PARAMS=~/catkin_ws_lite3dog/site_lite3_lab_5_1.yaml
+ros2 launch lite3_lab_5_1 experiment.launch.py \
+  mode:=real motion_backend:=native autostart:=false \
+  map:=$HOME/catkin_ws_lite3dog/maps/robot_dog_auto_map.yaml \
+  params_file:="$PARAMS" rviz:=true start_hardware:=true \
+  enable_real_motion:=false native_execute:=false \
+  robot_length_m:=1.2 robot_width_m:=0.8 footprint_padding_m:=0.15
+```
+
+保持一个map→odom、一个odom→base与一套传感器驱动。RViz固定frame选map，显示Map、LaserScan、ParticleCloud、Path、TF；用 **2D Pose Estimate** 人工标记实际位置与朝向。另开终端：
+
+```bash
+source ~/catkin_ws_lite3dog/course_env.sh
+ros2 lifecycle get /map_server
+ros2 lifecycle get /amcl
+ros2 lifecycle get /planner_server
+ros2 lifecycle get /controller_server
+ros2 lifecycle get /bt_navigator
+ros2 topic echo /particle_cloud --once
+ros2 topic echo /course/control/status --once
+ros2 topic hz /course/odom
+ros2 topic hz /course/obstacles
+ros2 run tf2_ros tf2_echo map base_link
+```
+
+未arm等待backend_ready属于预期。初始化最长1800墙秒；目标计时从健康就绪后开始。真实odom原header和接收墙钟均≤0.5 s；点云/障碍原header与墙钟≤1.5 s。未来、重复或逆序帧不能续租；实机header须与板端同一Unix时间域。scan_range_max=15 m是算法截断，不能叫MID360硬件最大量程。JSONL的ros_s为系统时间；为兼容历史记录，sim_s等旧字段名在real同样表示ROS系统时间，不能称仿真测试。
+
+**4. 现场真实执行。** 先完成native_course_control/README.md规定的原生后端现场验收、稳定站立、遥控停止优先级和正常交还。节点不会自动站立或arm。退出上一步测量launch，为新试验启动：
+
+```bash
+source ~/catkin_ws_lite3dog/course_env.sh
+export PARAMS=~/catkin_ws_lite3dog/site_lite3_lab_5_1.yaml
+export RUN=~/catkin_ws_lite3dog/results/lite3_lab_5_1/real_$(date +%Y%m%d_%H%M%S)
+export NATIVE_SHA=$(sha256sum ~/catkin_ws_lite3dog/src/lite3_course_native/native/native_runner | awk '{print $1}')
+test "${#NATIVE_SHA}" -eq 64
+ros2 launch lite3_lab_5_1 experiment.launch.py \
+  mode:=real motion_backend:=native autostart:=false \
+  map:=$HOME/catkin_ws_lite3dog/maps/robot_dog_auto_map.yaml \
+  params_file:="$PARAMS" result_dir:="$RUN" rviz:=true start_hardware:=true \
+  enable_real_motion:=true native_execute:=true native_sha256:="$NATIVE_SHA" \
+  robot_length_m:=1.2 robot_width_m:=0.8 footprint_padding_m:=0.15
+```
+
+重新人工设置初始位置，等待定位收敛。另开终端显式arm并检查真实armed=true，然后请求开始：
+
+```bash
+source ~/catkin_ws_lite3dog/course_env.sh
+ros2 service call /course/native/arm std_srvs/srv/Trigger '{}'
+ros2 topic echo /course/native/status --once
+ros2 topic echo /course/control/status --once
+ros2 service call /lite3_lab_5_1/start std_srvs/srv/Trigger '{}'
+```
+
+arm的success仅表示请求被接受，实际backend_ready必须新鲜。真机不要求仿真gait_ready。所有速度经过公共传感器/运动开关与native400 ms租约，不接第二章数秒离散动作接口。
+
+**5. 保存证据与停止。** 另开终端录制实际数据，目录必须新建：
+
+```bash
+source ~/catkin_ws_lite3dog/course_env.sh
+ros2 bag record -o ~/catkin_ws_lite3dog/results/lite3_lab_5_1_bag_$(date +%Y%m%d_%H%M%S) \
+  /course/points_raw /course/imu /course/obstacles /course/odom /scan /map \
+  /particle_cloud /initialpose /plan /tf /tf_static /course/control/status /course/native/status \
+  /local_costmap/costmap /local_costmap/published_footprint
+```
+
+结束先取消目标、正常交还，等待原遥控按后端规则趴下并确认native状态CLOSED，再Ctrl+C结束launch/录包：
+
+```bash
+source ~/catkin_ws_lite3dog/course_env.sh
+ros2 service call /lite3_lab_5_1/cancel std_srvs/srv/Trigger '{}'
+ros2 service call /course/native/handover std_srvs/srv/Trigger '{}'
+ros2 topic echo /course/native/status --once
+# 修改为本次结果目录的绝对路径后生成已有记录的图：
+ros2 run lite3_lab_5_1 report /绝对路径/本次结果目录
+```
+
+取消必须等待Action真实终态；无终态继续零候选并锁存/course/emergency_stop，查safety_status.json，不能把取消响应当已停止。找不到地图查YAML/image；粒子不收敛查人工位置、scan、外参和TF；旧header修时钟/驱动，不放宽阈值；目标非自由格、生命周期未active、后端未ready及现场未核对均有等待原因。缺本体时继续离线测试，不生成替代输入。
+
+# 实验结果
+
+应先看到人工初始位置、Nav2 active及95%粒子直径连续3 s≤0.30 m，然后才开始到点。用 `summary.json` 的 `navigation_success` 和原始Action终态判断到达。真实估计轨迹保存为 `csv/estimated_trajectory.csv`；没有独立测量时 `actual_pose_error_evaluated=false` 正确，不能用粒子直径代替实测误差。
+
+至少保留3次独立运行的参数、地图版本、bag、JSON/CSV和截图，包括全部失败。当前完成代码与离线回归，真实地图匹配、定位精度、原生运动和遥控接管尚未现场验证。

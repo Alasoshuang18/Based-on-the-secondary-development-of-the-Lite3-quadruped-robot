@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+  <world name="lite3_world">
+    <physics name="physics" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="ignition-gazebo-physics-system" name="ignition::gazebo::systems::Physics"/>
+    <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"/>
+    <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <plugin filename="ignition-gazebo-imu-system" name="ignition::gazebo::systems::Imu"/>
+    <plugin filename="ignition-gazebo-contact-system" name="ignition::gazebo::systems::Contact"/>
+    <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <direction>-0.5 0.1 -0.9</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <!-- Observe actual physics contacts, including non-foot collisions.
+             A geometric foot height alone does not establish load support. -->
+        <sensor name="lite3_ground_contact" type="contact">
+          <always_on>true</always_on>
+          <update_rate>100</update_rate>
+          <topic>/lite3_sim/ground_contacts</topic>
+          <contact>
+            <collision>collision</collision>
+            <!-- Fortress Contact reads this inner topic, not sensor/topic. -->
+            <topic>/lite3_sim/ground_contacts</topic>
+          </contact>
+        </sensor>
+        <collision name="collision">
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+          <material><ambient>0.6 0.6 0.6 1</ambient><diffuse>0.6 0.6 0.6 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <!-- Small static targets for point-cloud verification; no terrain meshes. -->
+    <model name="lidar_target_front">
+      <static>true</static><pose>3 0 0.5 0 0 0</pose>
+      <link name="target"><collision name="collision"><geometry><box><size>0.3 2 1</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.3 2 1</size></box></geometry><material><ambient>0.7 0.25 0.15 1</ambient><diffuse>0.7 0.25 0.15 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="lidar_target_left">
+      <static>true</static><pose>0 3 0.5 0 0 0</pose>
+      <link name="target"><collision name="collision"><geometry><box><size>2 0.3 1</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>2 0.3 1</size></box></geometry><material><ambient>0.2 0.55 0.3 1</ambient><diffuse>0.2 0.55 0.3 1</diffuse></material></visual>
+      </link>
+    </model>
+  </world>
+</sdf>

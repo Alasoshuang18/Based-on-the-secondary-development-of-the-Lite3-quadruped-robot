@@ -1,0 +1,50 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Fixed Frame: TORSO
+    Frame Rate: 15
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 1
+      Plane Cell Count: 20
+    - Class: rviz_default_plugins/RobotModel
+      Name: Lite3_with_payload
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Value: /lite3_sim/robot_description
+        Durability Policy: Transient Local
+        Reliability Policy: Reliable
+        History Policy: Keep Last
+        Depth: 1
+      Visual Enabled: true
+      Collision Enabled: false
+    - Class: rviz_default_plugins/PointCloud2
+      Name: MID360_FOV_approximation
+      Enabled: true
+      Topic:
+        Value: /lite3_sim/mid360/points
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Depth: 1
+      Style: Points
+      Size (Pixels): 2
+      Color Transformer: AxisColor
+      Position Transformer: XYZ
+      Axis: Z
+      Decay Time: 0
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 4
+      Pitch: 0.45
+      Yaw: 0.7
+Window Geometry:
+  Width: 1000
+  Height: 700

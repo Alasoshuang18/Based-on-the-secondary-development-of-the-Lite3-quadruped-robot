@@ -1,0 +1,19 @@
+# RViz manual destinations with online mapping; verify the actual site first.
+/**:
+  ros__parameters:
+    mode: real
+    use_sim_time: false
+    autostart: false
+    enable_real_motion: false
+    site_configuration_verified: false
+    robot_length_m: 0.779
+    robot_width_m: 0.480
+    footprint_padding_m: 0.10
+    max_linear_speed_mps: 0.20
+    max_yaw_rate_rps: 0.20
+    exploration_seconds: 60.0
+    exploration_radius_m: 2.0
+    manual_goal_timeout_s: 600.0
+    max_aborted_goals: 0
+    lifecycle_nodes: [planner_server, controller_server, bt_navigator, velocity_smoother]
+

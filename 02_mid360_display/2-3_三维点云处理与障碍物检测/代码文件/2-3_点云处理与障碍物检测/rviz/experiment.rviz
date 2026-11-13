@@ -1,0 +1,65 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Background Color: 32; 36; 43
+    Fixed Frame: base_link
+    Frame Rate: 20
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Ground grid
+      Enabled: true
+      Cell Size: 1
+      Plane Cell Count: 20
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Raw points
+      Enabled: true
+      Topic:
+        Value: /course/points_raw
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Depth: 5
+      Size (Pixels): 2
+      Style: Points
+      Color Transformer: AxisColor
+      Axis: Z
+    - Class: rviz_default_plugins/TF
+      Name: TF frames
+      Enabled: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Ground
+      Enabled: true
+      Topic:
+        Value: /course/ground
+        Reliability Policy: Best Effort
+      Color Transformer: FlatColor
+      Color: 30; 200; 80
+      Style: Points
+      Size (Pixels): 3
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Obstacles
+      Enabled: true
+      Topic:
+        Value: /course/obstacles
+        Reliability Policy: Best Effort
+      Color Transformer: FlatColor
+      Color: 240; 70; 40
+      Style: Points
+      Size (Pixels): 4
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Obstacle boxes
+      Enabled: true
+      Topic:
+        Value: /course/obstacle_markers
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 8
+      Pitch: 0.6
+      Yaw: 0.8
+Window Geometry:
+  Width: 1100
+  Height: 760

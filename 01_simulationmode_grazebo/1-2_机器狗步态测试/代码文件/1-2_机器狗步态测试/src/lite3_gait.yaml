@@ -1,0 +1,29 @@
+/lite3_sim/lite3_controller:
+  ros__parameters:
+    use_sim_time: true
+    pin_body: false
+    # Default retains the proven one-foot crawl. Opt in with gait_mode:=trot.
+    gait_mode: crawl
+    trot_period: 1.6
+    trot_duty: 0.60
+    trot_max_linear_speed: 0.020
+    trot_max_angular_speed: 0.02
+    trot_joint_rate_limit: 1.8
+    max_linear_speed: 0.003
+    max_angular_speed: 0.01
+    cmd_timeout: 0.5
+    joint_timeout: 1.0
+    imu_timeout: 1.0
+    pose_timeout: 1.0
+    min_measured_lift: 0.020
+    shift_time: 2.25
+    lift_time: 1.35
+    hold_time: 0.9
+    transfer_time: 0.9
+    lower_time: 1.35
+    step_height: 0.030
+    support_margin: 0.018
+    max_stride: 0.015
+    tilt_limit: 0.18
+    joint_rate_limit: 3.0
+

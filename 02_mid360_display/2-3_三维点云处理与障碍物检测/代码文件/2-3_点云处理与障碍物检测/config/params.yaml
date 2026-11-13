@@ -1,0 +1,21 @@
+/**:
+  ros__parameters:
+    input_topic: /course/points_raw
+    voxel_m: 0.08
+    min_range_m: 0.35
+    max_range_m: 8.0
+    max_points: 120000
+    # 未标定机身包络示例，须实测base坐标中的本体/腿部范围，不能当真实尺寸。
+    body_min_m: [-0.45, -0.25, -0.45]
+    body_max_m: [0.45, 0.25, 0.30]
+    ground_z_m: -0.40            # 未标定示例：实测base_link离地0.40m时才可填-0.40；不是雷达高度
+    ground_tolerance_m: 0.09
+    ground_max_slope_deg: 20.0
+    obstacle_min_height_m: 0.12
+    obstacle_max_height_m: 1.8
+    grid_cell_m: 0.18
+    min_cluster_points: 6
+    max_processing_hz: 10.0
+    imu_timeout_s: 0.4
+    tf_wait_s: 0.2
+    minimum_ground_points: 12

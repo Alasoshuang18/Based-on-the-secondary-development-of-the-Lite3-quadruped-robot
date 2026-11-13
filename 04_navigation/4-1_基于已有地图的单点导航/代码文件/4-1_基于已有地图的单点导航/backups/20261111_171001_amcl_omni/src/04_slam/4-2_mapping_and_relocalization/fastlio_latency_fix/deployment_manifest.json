@@ -1,0 +1,18 @@
+{
+  "sha256": {
+    "sensor_adapter.py": "f9f04b2e7af2f6a8587d7d49ad59766c9574cabc44bb6ba1d5ef5f3739abb56d",
+    "sensor_mounts.py": "2958c47b96356545fdc61fbb02265266c70dea3240ffeba99528e9615800bb98",
+    "bringup.py": "75571c81b8ded4de9376223181ff7643e238a179ce1385cfd5cd12097fd2dceb",
+    "check_perception.py": "c89cfc227b74dae589e76251d47692b0eb146fe685fce9546a1098b50e6ad6d6",
+    "verify_live_sensor_chain.py": "f3a83a56dd6e0dade8ab03353cc2c9408f048567a0d892f3a9b49d4eca0ff5c9",
+    "test_sensor_mounts_ros.py": "49430f1fd4bdda63be9496250ebc370b04913f60408858075d35bd0b952b8f4e",
+    "test_adapter_scheduling.py": "40fdb4e77c8e9cad03e39d8ab6e636fedd562a731137eadef80bc7376a6a496e",
+    "test_invalid_returns_ros.py": "e7e885f35b95698ac8c14d9efaac1a9b319e3b797b46fb1ed277eac8c6aeeafa",
+    "lab4_2_navigation_light.rviz": "86537214e20c8e4ab4737fe7b624f94cd4e95d60e2b863f2c7ef84cc1ef557fc",
+    "prepare_navigation_view.py": "89b33d45c4b1dd093122cf646a294498445300de720231e604af7add53800ec3",
+    "run_local_navigation_view.sh": "88057583cb3304b552f3f76e0630979a5c19fdca0ab59cd9ea9a69d1cefd18f5",
+    "README.md": "902885ec7c68fd068453af5e358e5db9a88327b4ab88717530018b7024cd904c"
+  },
+  "archive_sha256": "19872c182765dbaf7173ab233371c3412b2e913f7a517a89992b1c0b784f256c",
+  "bringup_original_sha256": "446e3bab6de8f39f16af3d2b397199930ed3dbe5b4cb40af1947548a8f978128"
+}

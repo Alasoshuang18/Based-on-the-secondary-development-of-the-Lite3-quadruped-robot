@@ -1,0 +1,93 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Fixed Frame: map3d
+    Frame Rate: 10
+    Background Color: 40; 40; 45
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Reference_grid
+      Enabled: true
+      Cell Size: 1
+      Plane Cell Count: 20
+    - Class: rviz_default_plugins/PointCloud2
+      Name: RTABMAP_3D_graph_map
+      Enabled: true
+      Topic:
+        Value: /lite3_sim/slam3d/cloud_map
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        Depth: 1
+      Style: Points
+      Size (Pixels): 3
+      Color Transformer: AxisColor
+      Position Transformer: XYZ
+      Axis: Z
+      Decay Time: 0
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Live_MID360_returns
+      Enabled: true
+      Topic:
+        Value: /lite3_sim/mid360/points
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        Depth: 1
+      Style: Points
+      Size (Pixels): 2
+      Color Transformer: FlatColor
+      Color: 200; 200; 200
+      Position Transformer: XYZ
+      Decay Time: 0.4
+    - Class: rviz_default_plugins/RobotModel
+      Name: Lite3_with_payload
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Value: /lite3_sim/robot_description
+        Durability Policy: Transient Local
+        Reliability Policy: Reliable
+        History Policy: Keep Last
+        Depth: 1
+      Visual Enabled: true
+      Collision Enabled: false
+    - Class: rviz_default_plugins/Odometry
+      Name: Lidar_ICP_6DoF_odometry
+      Enabled: true
+      Topic:
+        Value: /lite3_sim/slam3d/odom
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        Depth: 5
+      Keep: 20
+      Position Tolerance: 0.03
+      Angle Tolerance: 0.03
+      Shape: Axes
+      Axes Length: 0.2
+      Axes Radius: 0.015
+    - Class: rviz_default_plugins/Path
+      Name: Optimized_3D_graph_path
+      Enabled: true
+      Topic:
+        Value: /lite3_sim/slam3d/mapPath
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        Depth: 1
+      Color: 255; 200; 0
+      Line Style: Lines
+      Line Width: 0.02
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 9
+      Pitch: 0.65
+      Yaw: 0.8
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+Window Geometry:
+  Width: 1100
+  Height: 760

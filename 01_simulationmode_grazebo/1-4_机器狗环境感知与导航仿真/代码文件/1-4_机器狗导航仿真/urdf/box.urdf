@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="box">
+  <link name="navigation_box">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="1.5071784" />
+      <inertia ixx="0.002826021043118" ixy="0" ixz="0" iyy="0.005669502747999999" iyz="0" izz="0.007816288725517997" />
+    </inertial>
+    <visual name="cad_box_visual">
+      <geometry>
+        <mesh filename="file:///home/HwHiAiUser/catkin_ws_lite3dog/src/06_simulationmode_grazebo/6-4_robot_navigation/meshes/box.stl" scale="1 1 1" />
+      </geometry>
+      <material name="navigation_box_blue">
+        <color rgba="0.10 0.30 0.65 1" />
+      </material>
+    </visual>
+    <collision name="cad_box_collision">
+      <geometry>
+        <box size="0.206 0.1407 0.052" />
+      </geometry>
+    </collision>
+  </link>
+</robot>

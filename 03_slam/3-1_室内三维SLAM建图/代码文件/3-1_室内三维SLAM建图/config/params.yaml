@@ -1,0 +1,12 @@
+/**:
+  ros__parameters:
+    mode: real
+    use_sim_time: false
+    autostart: false
+    stale_timeout_s: 1.0
+    imu_samples: 100
+    imu_norm_min_mps2: 8.5
+    imu_norm_max_mps2: 11.0
+    imu_norm_std_max_mps2: 0.8
+    minimum_travel_m: 1.0
+    returned_to_start: false
