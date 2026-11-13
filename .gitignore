@@ -1,0 +1,14 @@
+
+# 大文件与构建产物
+*.mp4
+*.stp
+.lite3_backups/
+**/build/
+**/install/
+**/log/
+*.mp4
+*.stp
+.lite3_backups/
+**/build/
+**/install/
+**/log/
