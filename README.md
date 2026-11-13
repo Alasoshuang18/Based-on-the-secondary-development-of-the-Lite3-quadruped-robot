@@ -90,6 +90,7 @@ Lite3 + MID-360 + Orange Pi
 
 
 ## 文件目录
+```text
 Lite3_robot/
 ├── README.md
 ├── 01_simulationmode_grazebo/          # Lite3 模型、控制与仿真
@@ -114,7 +115,7 @@ Lite3_robot/
     ├── 5-1_基于已有地图的单点导航/
     ├── 5-2_基于目标点规划路径/
     └── 5-3_自主探索与静态避障/
-
+```
 
 ## 开发与运行环境
 
