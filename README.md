@@ -132,7 +132,6 @@ Lite3_robot/
 
 ## 开发与运行环境
 
-<<<<<<< HEAD
 | 项目 | 配套环境 |
 | --- | --- |
 | 机器人平台 | Lite3 四足机器人 |
@@ -158,7 +157,6 @@ Lite3_robot/
 | 定位与建图   | FAST-LIO、slam_toolbox、AMCL             |
 | 导航与显示   | Nav2、RViz2                              |
 | 构建工具     | colcon、ament_cmake、ament_python        |
->>>>>>> 938979c756959ce9f194b8e8e15733aa78820455
 
 配套说明沿用目标工作空间 `~/catkin_ws_lite3dog`，实际采用 ROS 2 的 colcon 构建流程。
 
