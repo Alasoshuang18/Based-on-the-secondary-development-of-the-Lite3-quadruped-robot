@@ -86,7 +86,7 @@ Lite3 + MID-360 + Orange Pi
      官方 MotionSender
             │
      Lite3 原厂步态控制器
-
+```
 
 
 ## 文件目录
